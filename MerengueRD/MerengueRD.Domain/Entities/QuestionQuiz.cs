@@ -6,7 +6,12 @@ using System.Threading.Tasks;
 
 namespace MerengueRD.Domain.Entities
 {
-    internal class QuestionQuiz
+    public class QuestionQuiz
     {
+        public int Id { get; set; }
+        public string Enunciado { get; set; }
+        public string Tipo { get; set; }
+        public List<string> Opciones { get; set; }
+        public string RespuestaCorrecta { get; set; }
     }
 }

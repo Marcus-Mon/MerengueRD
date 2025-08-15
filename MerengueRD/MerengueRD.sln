@@ -3,7 +3,37 @@ Microsoft Visual Studio Solution File, Format Version 12.00
 # Visual Studio Version 17
 VisualStudioVersion = 17.14.36109.1 d17.14
 MinimumVisualStudioVersion = 10.0.40219.1
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "MerengueRD.API", "MerengueRD.API\MerengueRD.API.csproj", "{4AF916DC-D6BB-4E96-96A4-38086FFE563B}"
+EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "MerengueRD.Domain", "MerengueRD.Domain\MerengueRD.Domain.csproj", "{DC880201-F58B-4864-84C6-A2A4395FC715}"
+EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "MerengueRD.Infrastructure", "MerengueRD.Infrastructure\MerengueRD.Infrastructure.csproj", "{2753225E-43D9-4D3D-B4C9-8C7895A3454A}"
+EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "MerengueRD.Application", "MerengueRD.Application\MerengueRD.Application.csproj", "{11E7F34F-15E5-4291-88FA-22DBFEA92311}"
+EndProject
 Global
+	GlobalSection(SolutionConfigurationPlatforms) = preSolution
+		Debug|Any CPU = Debug|Any CPU
+		Release|Any CPU = Release|Any CPU
+	EndGlobalSection
+	GlobalSection(ProjectConfigurationPlatforms) = postSolution
+		{4AF916DC-D6BB-4E96-96A4-38086FFE563B}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{4AF916DC-D6BB-4E96-96A4-38086FFE563B}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{4AF916DC-D6BB-4E96-96A4-38086FFE563B}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{4AF916DC-D6BB-4E96-96A4-38086FFE563B}.Release|Any CPU.Build.0 = Release|Any CPU
+		{DC880201-F58B-4864-84C6-A2A4395FC715}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{DC880201-F58B-4864-84C6-A2A4395FC715}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{DC880201-F58B-4864-84C6-A2A4395FC715}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{DC880201-F58B-4864-84C6-A2A4395FC715}.Release|Any CPU.Build.0 = Release|Any CPU
+		{2753225E-43D9-4D3D-B4C9-8C7895A3454A}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{2753225E-43D9-4D3D-B4C9-8C7895A3454A}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{2753225E-43D9-4D3D-B4C9-8C7895A3454A}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{2753225E-43D9-4D3D-B4C9-8C7895A3454A}.Release|Any CPU.Build.0 = Release|Any CPU
+		{11E7F34F-15E5-4291-88FA-22DBFEA92311}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{11E7F34F-15E5-4291-88FA-22DBFEA92311}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{11E7F34F-15E5-4291-88FA-22DBFEA92311}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{11E7F34F-15E5-4291-88FA-22DBFEA92311}.Release|Any CPU.Build.0 = Release|Any CPU
+	EndGlobalSection
 	GlobalSection(SolutionProperties) = preSolution
 		HideSolutionNode = FALSE
 	EndGlobalSection
