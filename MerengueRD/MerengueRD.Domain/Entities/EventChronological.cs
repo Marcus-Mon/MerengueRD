@@ -1,10 +1,4 @@
-﻿using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
-
-namespace MerengueRD.Domain.Entities
+﻿namespace MerengueRD.Domain.Entities
 {
     public class EventChronological
     {

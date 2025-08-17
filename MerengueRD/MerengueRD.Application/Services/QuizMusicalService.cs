@@ -71,6 +71,7 @@ namespace MerengueRD.Application.Services
                 }).ToList()
             };
         }
+
         public async Task UpdateAsync(QuizMusicalDto dto)
         {
             var quizmusicals = new QuizMusical
@@ -95,5 +96,6 @@ namespace MerengueRD.Application.Services
         {
             await _repository.DeleteAsync(id);
         }
+
     }
 }
