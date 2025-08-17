@@ -1,12 +1,14 @@
-﻿using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
+﻿using MerengueRD.Domain.Entities;
+
 
 namespace MerengueRD.Infrastructure.Interfaces
 {
-    internal class IEventChronologicalRepository
+    public interface IEventChronologicalRepository
     {
+        Task<EventChronological?> GetByIdAsync(int id);
+        Task<IEnumerable<EventChronological>> GetAllAsync();
+        Task AddAsync(EventChronological eventChronological);
+        Task UpdateAsync(EventChronological eventChronological);
+        Task DeleteAsync(int id);
     }
 }

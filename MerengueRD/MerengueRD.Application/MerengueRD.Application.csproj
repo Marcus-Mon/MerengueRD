@@ -7,10 +7,11 @@
   </PropertyGroup>
 
   <ItemGroup>
-    <Folder Include="Contracts\" />
-    <Folder Include="MappingProfiles\" />
-    <Folder Include="DTOs\" />
-    <Folder Include="Services\" />
+    <None Include="Services\QuestionQuizService.cs" />
+  </ItemGroup>
+
+  <ItemGroup>
+    <ProjectReference Include="..\MerengueRD.Infrastructure\MerengueRD.Infrastructure.csproj" />
   </ItemGroup>
 
 </Project>

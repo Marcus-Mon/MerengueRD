@@ -1,12 +1,14 @@
-﻿using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
-
+﻿
 namespace MerengueRD.Infrastructure.Interfaces
 {
-    internal class IUnitOfWork
+    public interface IUnitOfWork
     {
+        IArtistRepository Artists { get; }
+        IEventChronologicalRepository EventChronologicals { get; }
+        IQuestionQuizRepository QuestionQuizzes { get; }
+        IQuizMusicalRepository QuizMusicals { get; }
+        ISongRepository Songs { get; }
+
+        Task<int> SaveChangesAsync();
     }
 }
