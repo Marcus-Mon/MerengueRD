@@ -17,6 +17,7 @@ namespace MerengueRD.Infrastructure.Repositories
         public async Task<Artist?> GetByIdAsync(int id)
         {
             return await _context.Artists.FindAsync(id);
+
         }
         public async Task<IEnumerable<Artist>> GetAllAsync()
         {
@@ -25,10 +26,12 @@ namespace MerengueRD.Infrastructure.Repositories
         public async Task AddAsync(Artist artist)
         {
             await _context.Artists.AddAsync(artist);
+            await _context.SaveChangesAsync();
         }
         public async Task UpdateAsync(Artist artist)
         {
             _context.Artists.Update(artist);
+            await _context.SaveChangesAsync();
         }
         public async Task DeleteAsync(int id)
         {
@@ -36,6 +39,7 @@ namespace MerengueRD.Infrastructure.Repositories
             if (artist != null)
             {
                 _context.Artists.Remove(artist);
+                await _context.SaveChangesAsync();
             }
         }
     }

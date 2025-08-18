@@ -50,6 +50,7 @@ namespace MerengueRD.Application.Services
                 RespuestaCorrecta = dto.RespuestaCorrecta,
             };
             await _repository.AddAsync(questionquiz);
+            dto.Id = questionquiz.Id;
         }
         public async Task UpdateAsync(QuestionQuizDto dto)
         {

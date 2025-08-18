@@ -10,7 +10,7 @@ namespace MerengueRD.Domain.Entities
     {
         public int Id { get; set; }
         public string Titulo { get; set; }
-        public string DuracionMax { get; set; }
+        public int DuracionMax { get; set; }
         public string Nivel { get; set; }
         public List<QuestionQuiz> Preguntas { get; set; } = new List<QuestionQuiz>();
 

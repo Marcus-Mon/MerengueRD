@@ -24,10 +24,12 @@ namespace MerengueRD.Infrastructure.Repositories
         public async Task AddAsync(Song song)
         {
             await _context.Songs.AddAsync(song);
+            await _context.SaveChangesAsync();
         }
         public async Task UpdateAsync(Song song)
         {
             _context.Songs.Update(song);
+            await _context.SaveChangesAsync();
         }
         public async Task DeleteAsync(int id)
         {
@@ -35,6 +37,7 @@ namespace MerengueRD.Infrastructure.Repositories
             if (song != null)
             {
                 _context.Songs.Remove(song);
+                await _context.SaveChangesAsync();
             }
         }
     }

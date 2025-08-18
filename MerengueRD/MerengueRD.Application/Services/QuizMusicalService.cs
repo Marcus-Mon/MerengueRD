@@ -55,23 +55,23 @@ namespace MerengueRD.Application.Services
         }
         public async Task AddAsync(QuizMusicalDto dto)
         {
-            var quizmusicals = new QuizMusical
+            var quizmusical = new QuizMusical
             {
                 Titulo = dto.Titulo,
                 DuracionMax = dto.DuracionMax,
                 Nivel = dto.Nivel,
-                Preguntas = dto.Preguntas
-                .Select(p => new QuestionQuiz
+                Preguntas = dto.Preguntas.Select(p => new QuestionQuiz
                 {
-                    Id = p.Id,
                     Enunciado = p.Enunciado,
                     Tipo = p.Tipo,
                     Opciones = p.Opciones,
                     RespuestaCorrecta = p.RespuestaCorrecta
                 }).ToList()
             };
-            _repository.AddAsync(quizmusicals);
 
+            await _repository.AddAsync(quizmusical);
+
+            dto.Id = quizmusical.Id;
         }
 
         public async Task UpdateAsync(QuizMusicalDto dto)

@@ -3,328 +3,303 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>MerengueRD - Plataforma Cultural Dominicana</title>
+    <title>MerengueRD Admin</title>
     <link rel="stylesheet" href="styles.css">
 </head>
 <body>
     <div class="container">
-        <header class="header">
-            <div class="logo">
-                <h1>🎵 MerengueRD</h1>
-                <p>Preservando la cultura del merengue dominicano</p>
-            </div>
-        </header>
-
-        <nav class="tab-bar">
-            <button class="tab-btn active" data-tab="artists">
-                <span class="tab-icon">🎤</span>
-                Artistas
-            </button>
-            <button class="tab-btn" data-tab="songs">
-                <span class="tab-icon">🎵</span>
-                Canciones
-            </button>
-            <button class="tab-btn" data-tab="events">
-                <span class="tab-icon">📅</span>
-                Eventos Históricos
-            </button>
-            <button class="tab-btn" data-tab="questions">
-                <span class="tab-icon">❓</span>
-                Preguntas Quiz
-            </button>
-            <button class="tab-btn" data-tab="quizzes">
-                <span class="tab-icon">🎯</span>
-                Quiz Musical
-            </button>
+        <h1>🎵 MerengueRD Admin</h1>
+        
+        <!-- Tab Navigation -->
+        <nav class="tab-nav">
+            <button class="tab-btn active" data-tab="artists">👨‍🎤 Artistas</button>
+            <button class="tab-btn" data-tab="songs">🎵 Canciones</button>
+            <button class="tab-btn" data-tab="events">📅 Eventos</button>
+            <button class="tab-btn" data-tab="questionquizzes">❓ Preguntas</button>
+            <button class="tab-btn" data-tab="quizmusicals">🎯 Quiz Musical</button>
         </nav>
 
-        <main class="main-content">
-            <!-- Artists Tab -->
-            <div id="artists" class="tab-content active">
-                <div class="section-header">
-                    <h2>Gestión de Artistas</h2>
-                    <button class="btn-primary" onclick="showArtistForm()">+ Nuevo Artista</button>
-                </div>
-                
-                <div id="artist-form" class="form-container" style="display: none;">
-                    <h3 id="artist-form-title">Agregar Artista</h3>
-                    <form id="artistForm">
-                        <input type="hidden" id="artist-id">
-                        <div class="form-group">
-                            <label for="artist-name">Nombre:</label>
-                            <input type="text" id="artist-name" required>
-                        </div>
-                        <div class="form-group">
-                            <label for="artist-birthdate">Fecha de Nacimiento:</label>
-                            <input type="date" id="artist-birthdate">
-                        </div>
-                        <div class="form-group">
-                            <label for="artist-nationality">Nacionalidad:</label>
-                            <input type="text" id="artist-nationality">
-                        </div>
-                        <div class="form-group">
-                            <label for="artist-biography">Biografía:</label>
-                            <textarea id="artist-biography" rows="4"></textarea>
-                        </div>
-                        <div class="form-group">
-                            <label for="artist-photo">URL de Foto:</label>
-                            <input type="url" id="artist-photo">
-                        </div>
-                        <div class="form-actions">
-                            <button type="submit" class="btn-primary">Guardar</button>
-                            <button type="button" class="btn-secondary" onclick="hideArtistForm()">Cancelar</button>
-                        </div>
-                    </form>
-                </div>
+        <!-- Messages -->
+        <div id="messages"></div>
 
-                <div class="table-container">
-                    <table id="artists-table">
-                        <thead>
-                            <tr>
-                                <th>Foto</th>
-                                <th>Nombre</th>
-                                <th>Fecha Nacimiento</th>
-                                <th>Nacionalidad</th>
-                                <th>Acciones</th>
-                            </tr>
-                        </thead>
-                        <tbody id="artists-tbody">
-                        </tbody>
-                    </table>
-                </div>
+        <!-- Artists Tab -->
+        <div id="artists" class="tab-content active">
+            <div class="form-section">
+                <h2 class="form-title">Gestión de Artistas</h2>
+                <form id="artistForm">
+                    <input type="hidden" id="artistId" name="id">
+                    <div class="form-grid">
+                        <div class="form-group">
+                            <label for="artistNombre">Nombre *</label>
+                            <input type="text" id="artistNombre" name="nombre" required>
+                        </div>
+                        <div class="form-group">
+                            <label for="artistFechaNacimiento">Fecha de Nacimiento</label>
+                            <input type="date" id="artistFechaNacimiento" name="fechaNacimiento">
+                        </div>
+                        <div class="form-group">
+                            <label for="artistNacionalidad">Nacionalidad</label>
+                            <input type="text" id="artistNacionalidad" name="nacionalidad">
+                        </div>
+                        <div class="form-group">
+                            <label for="artistFotoUrl">URL de Foto</label>
+                            <input type="url" id="artistFotoUrl" name="fotoUrl">
+                        </div>
+                        <div class="form-group" style="grid-column: 1 / -1;">
+                            <label for="artistBiografia">Biografía</label>
+                            <textarea id="artistBiografia" name="biografia"></textarea>
+                        </div>
+                    </div>
+                    <button type="submit" class="btn btn-primary">💾 Guardar Artista</button>
+                    <button type="button" class="btn btn-warning" onclick="clearArtistForm()">🔄 Limpiar</button>
+                </form>
             </div>
-
-            <!-- Songs Tab -->
-            <div id="songs" class="tab-content">
-                <div class="section-header">
-                    <h2>Gestión de Canciones</h2>
-                    <button class="btn-primary" onclick="showSongForm()">+ Nueva Canción</button>
-                </div>
-                
-                <div id="song-form" class="form-container" style="display: none;">
-                    <h3 id="song-form-title">Agregar Canción</h3>
-                    <form id="songForm">
-                        <input type="hidden" id="song-id">
-                        <div class="form-group">
-                            <label for="song-title">Título:</label>
-                            <input type="text" id="song-title" required>
-                        </div>
-                        <div class="form-group">
-                            <label for="song-duration">Duración:</label>
-                            <input type="text" id="song-duration" placeholder="ej: 3:45">
-                        </div>
-                        <div class="form-group">
-                            <label for="song-release-date">Fecha de Lanzamiento:</label>
-                            <input type="date" id="song-release-date">
-                        </div>
-                        <div class="form-group">
-                            <label for="song-description">Descripción:</label>
-                            <textarea id="song-description" rows="3"></textarea>
-                        </div>
-                        <div class="form-group">
-                            <label for="song-audio">URL de Audio:</label>
-                            <input type="url" id="song-audio">
-                        </div>
-                        <div class="form-actions">
-                            <button type="submit" class="btn-primary">Guardar</button>
-                            <button type="button" class="btn-secondary" onclick="hideSongForm()">Cancelar</button>
-                        </div>
-                    </form>
-                </div>
-
-                <div class="table-container">
-                    <table id="songs-table">
-                        <thead>
-                            <tr>
-                                <th>Título</th>
-                                <th>Duración</th>
-                                <th>Fecha Lanzamiento</th>
-                                <th>Audio</th>
-                                <th>Acciones</th>
-                            </tr>
-                        </thead>
-                        <tbody id="songs-tbody">
-                        </tbody>
-                    </table>
-                </div>
+            
+            <div class="table-container">
+                <table>
+                    <thead>
+                        <tr>
+                            <th>ID</th>
+                            <th>Nombre</th>
+                            <th>Fecha Nac.</th>
+                            <th>Nacionalidad</th>
+                            <th>Acciones</th>
+                        </tr>
+                    </thead>
+                    <tbody id="artistsTableBody">
+                        <tr>
+                            <td colspan="5" class="loading">
+                                <div class="spinner"></div>
+                                Cargando artistas...
+                            </td>
+                        </tr>
+                    </tbody>
+                </table>
             </div>
+        </div>
 
-            <!-- Events Tab -->
-            <div id="events" class="tab-content">
-                <div class="section-header">
-                    <h2>Eventos Históricos</h2>
-                    <button class="btn-primary" onclick="showEventForm()">+ Nuevo Evento</button>
-                </div>
-                
-                <div id="event-form" class="form-container" style="display: none;">
-                    <h3 id="event-form-title">Agregar Evento</h3>
-                    <form id="eventForm">
-                        <input type="hidden" id="event-id">
+        <!-- Songs Tab -->
+        <div id="songs" class="tab-content">
+            <div class="form-section">
+                <h2 class="form-title">Gestión de Canciones</h2>
+                <form id="songForm">
+                    <input type="hidden" id="songId" name="id">
+                    <div class="form-grid">
                         <div class="form-group">
-                            <label for="event-title">Título:</label>
-                            <input type="text" id="event-title" required>
+                            <label for="songTitulo">Título *</label>
+                            <input type="text" id="songTitulo" name="titulo" required>
                         </div>
                         <div class="form-group">
-                            <label for="event-start-date">Fecha de Inicio:</label>
-                            <input type="date" id="event-start-date" required>
+                            <label for="songDuracion">Duración (mm:ss)</label>
+                            <input type="text" id="songDuracion" name="duracion" placeholder="03:45">
                         </div>
                         <div class="form-group">
-                            <label for="event-end-date">Fecha de Fin:</label>
-                            <input type="date" id="event-end-date">
+                            <label for="songFechaLanzamiento">Fecha de Lanzamiento</label>
+                            <input type="date" id="songFechaLanzamiento" name="fechaLanzamiento">
                         </div>
                         <div class="form-group">
-                            <label for="event-description">Descripción:</label>
-                            <textarea id="event-description" rows="4"></textarea>
+                            <label for="songAudioUrl">URL de Audio</label>
+                            <input type="url" id="songAudioUrl" name="audioUrl">
                         </div>
-                        <div class="form-group">
-                            <label for="event-image">URL de Imagen:</label>
-                            <input type="url" id="event-image">
+                        <div class="form-group" style="grid-column: 1 / -1;">
+                            <label for="songDescription">Descripción</label>
+                            <textarea id="songDescription" name="description"></textarea>
                         </div>
-                        <div class="form-actions">
-                            <button type="submit" class="btn-primary">Guardar</button>
-                            <button type="button" class="btn-secondary" onclick="hideEventForm()">Cancelar</button>
-                        </div>
-                    </form>
-                </div>
-
-                <div class="table-container">
-                    <table id="events-table">
-                        <thead>
-                            <tr>
-                                <th>Imagen</th>
-                                <th>Título</th>
-                                <th>Fecha Inicio</th>
-                                <th>Fecha Fin</th>
-                                <th>Descripción</th>
-                                <th>Acciones</th>
-                            </tr>
-                        </thead>
-                        <tbody id="events-tbody">
-                        </tbody>
-                    </table>
-                </div>
+                    </div>
+                    <button type="submit" class="btn btn-primary">💾 Guardar Canción</button>
+                    <button type="button" class="btn btn-warning" onclick="clearSongForm()">🔄 Limpiar</button>
+                </form>
             </div>
+            
+            <div class="table-container">
+                <table>
+                    <thead>
+                        <tr>
+                            <th>ID</th>
+                            <th>Título</th>
+                            <th>Duración</th>
+                            <th>Fecha Lanzamiento</th>
+                            <th>Acciones</th>
+                        </tr>
+                    </thead>
+                    <tbody id="songsTableBody">
+                        <tr>
+                            <td colspan="5" class="loading">
+                                <div class="spinner"></div>
+                                Cargando canciones...
+                            </td>
+                        </tr>
+                    </tbody>
+                </table>
+            </div>
+        </div>
 
-            <!-- Questions Tab -->
-            <div id="questions" class="tab-content">
-                <div class="section-header">
-                    <h2>Preguntas del Quiz</h2>
-                    <button class="btn-primary" onclick="showQuestionForm()">+ Nueva Pregunta</button>
-                </div>
-                
-                <div id="question-form" class="form-container" style="display: none;">
-                    <h3 id="question-form-title">Agregar Pregunta</h3>
-                    <form id="questionForm">
-                        <input type="hidden" id="question-id">
+        <!-- Events Tab -->
+        <div id="events" class="tab-content">
+            <div class="form-section">
+                <h2 class="form-title">Gestión de Eventos Cronológicos</h2>
+                <form id="eventForm">
+                    <input type="hidden" id="eventId" name="id">
+                    <div class="form-grid">
                         <div class="form-group">
-                            <label for="question-text">Enunciado:</label>
-                            <textarea id="question-text" rows="3" required></textarea>
+                            <label for="eventTitulo">Título *</label>
+                            <input type="text" id="eventTitulo" name="titulo" required>
                         </div>
                         <div class="form-group">
-                            <label for="question-type">Tipo:</label>
-                            <select id="question-type" required>
-                                <option value="">Seleccionar tipo</option>
-                                <option value="multiple">Opción múltiple</option>
+                            <label for="eventFechainicio">Fecha de Inicio</label>
+                            <input type="date" id="eventFechainicio" name="fechainicio">
+                        </div>
+                        <div class="form-group">
+                            <label for="eventImagenUrl">URL de Imagen</label>
+                            <input type="url" id="eventImagenUrl" name="imagenUrl">
+                        </div>
+                        <div class="form-group" style="grid-column: 1 / -1;">
+                            <label for="eventDescription">Descripción</label>
+                            <textarea id="eventDescription" name="description"></textarea>
+                        </div>
+                    </div>
+                    <button type="submit" class="btn btn-primary">💾 Guardar Evento</button>
+                    <button type="button" class="btn btn-warning" onclick="clearEventForm()">🔄 Limpiar</button>
+                </form>
+            </div>
+            
+            <div class="table-container">
+                <table>
+                    <thead>
+                        <tr>
+                            <th>ID</th>
+                            <th>Título</th>
+                            <th>Fecha Inicio</th>
+                            <th>Descripción</th>
+                            <th>Acciones</th>
+                        </tr>
+                    </thead>
+                    <tbody id="eventsTableBody">
+                        <tr>
+                            <td colspan="5" class="loading">
+                                <div class="spinner"></div>
+                                Cargando eventos...
+                            </td>
+                        </tr>
+                    </tbody>
+                </table>
+            </div>
+        </div>
+
+        <!-- Question Quizzes Tab -->
+        <div id="questionquizzes" class="tab-content">
+            <div class="form-section">
+                <h2 class="form-title">Gestión de Preguntas Quiz</h2>
+                <form id="questionForm">
+                    <input type="hidden" id="questionId" name="id">
+                    <div class="form-grid">
+                        <div class="form-group">
+                            <label for="questionEnunciado">Enunciado *</label>
+                            <textarea id="questionEnunciado" name="enunciado" required></textarea>
+                        </div>
+                        <div class="form-group">
+                            <label for="questionTipo">Tipo</label>
+                            <select id="questionTipo" name="tipo">
+                                <option value="multiple">Opción Múltiple</option>
                                 <option value="verdadero_falso">Verdadero/Falso</option>
-                                <option value="completar">Completar</option>
+                                <option value="texto">Texto Libre</option>
                             </select>
                         </div>
                         <div class="form-group">
-                            <label for="question-options">Opciones (separadas por coma):</label>
-                            <input type="text" id="question-options" placeholder="ej: Opción A, Opción B, Opción C">
+                            <label for="questionOpciones">Opciones (separadas por |)</label>
+                            <input type="text" id="questionOpciones" name="opciones" placeholder="Opción A|Opción B|Opción C">
                         </div>
                         <div class="form-group">
-                            <label for="question-answer">Respuesta Correcta:</label>
-                            <input type="text" id="question-answer" required>
+                            <label for="questionRespuestaCorrecta">Respuesta Correcta *</label>
+                            <input type="text" id="questionRespuestaCorrecta" name="respuestaCorrecta" required>
                         </div>
-                        <div class="form-actions">
-                            <button type="submit" class="btn-primary">Guardar</button>
-                            <button type="button" class="btn-secondary" onclick="hideQuestionForm()">Cancelar</button>
-                        </div>
-                    </form>
-                </div>
-
-                <div class="table-container">
-                    <table id="questions-table">
-                        <thead>
-                            <tr>
-                                <th>Enunciado</th>
-                                <th>Tipo</th>
-                                <th>Respuesta Correcta</th>
-                                <th>Acciones</th>
-                            </tr>
-                        </thead>
-                        <tbody id="questions-tbody">
-                        </tbody>
-                    </table>
-                </div>
+                    </div>
+                    <button type="submit" class="btn btn-primary">💾 Guardar Pregunta</button>
+                    <button type="button" class="btn btn-warning" onclick="clearQuestionForm()">🔄 Limpiar</button>
+                </form>
             </div>
+            
+            <div class="table-container">
+                <table>
+                    <thead>
+                        <tr>
+                            <th>ID</th>
+                            <th>Enunciado</th>
+                            <th>Tipo</th>
+                            <th>Respuesta</th>
+                            <th>Acciones</th>
+                        </tr>
+                    </thead>
+                    <tbody id="questionsTableBody">
+                        <tr>
+                            <td colspan="5" class="loading">
+                                <div class="spinner"></div>
+                                Cargando preguntas...
+                            </td>
+                        </tr>
+                    </tbody>
+                </table>
+            </div>
+        </div>
 
-            <!-- Quizzes Tab -->
-            <div id="quizzes" class="tab-content">
-                <div class="section-header">
-                    <h2>Quiz Musical</h2>
-                    <button class="btn-primary" onclick="showQuizForm()">+ Nuevo Quiz</button>
-                </div>
-                
-                <div id="quiz-form" class="form-container" style="display: none;">
-                    <h3 id="quiz-form-title">Agregar Quiz</h3>
-                    <form id="quizForm">
-                        <input type="hidden" id="quiz-id">
+        <!-- Quiz Musicals Tab -->
+        <div id="quizmusicals" class="tab-content">
+            <div class="form-section">
+                <h2 class="form-title">Gestión de Quiz Musical</h2>
+                <form id="quizForm">
+                    <input type="hidden" id="quizId" name="id">
+                    <div class="form-grid">
                         <div class="form-group">
-                            <label for="quiz-title">Título:</label>
-                            <input type="text" id="quiz-title" required>
+                            <label for="quizTitulo">Título *</label>
+                            <input type="text" id="quizTitulo" name="titulo" required>
                         </div>
                         <div class="form-group">
-                            <label for="quiz-duration">Duración Máxima (minutos):</label>
-                            <input type="number" id="quiz-duration" placeholder="ej: 10">
+                            <label for="quizDuracionMax">Duración Máxima (minutos)</label>
+                            <input type="number" id="quizDuracionMax" name="duracionMax" min="1">
                         </div>
                         <div class="form-group">
-                            <label for="quiz-level">Nivel de Dificultad:</label>
-                            <select id="quiz-level" required>
-                                <option value="">Seleccionar nivel</option>
-                                <option value="1">Fácil</option>
-                                <option value="2">Intermedio</option>
-                                <option value="3">Difícil</option>
+                            <label for="quizNivel">Nivel</label>
+                            <select id="quizNivel" name="nivel">
+                                <option value="Fácil">Fácil</option>
+                                <option value="Intermedio">Intermedio</option>
+                                <option value="Difícil">Difícil</option>
                             </select>
                         </div>
-                        <div class="form-group">
-                            <label for="quiz-description">Descripción:</label>
-                            <textarea id="quiz-description" rows="3"></textarea>
-                        </div>
-                        <div class="form-actions">
-                            <button type="submit" class="btn-primary">Guardar</button>
-                            <button type="button" class="btn-secondary" onclick="hideQuizForm()">Cancelar</button>
-                        </div>
-                    </form>
-                </div>
-
-                <div class="table-container">
-                    <table id="quizzes-table">
-                        <thead>
-                            <tr>
-                                <th>Título</th>
-                                <th>Duración</th>
-                                <th>Nivel</th>
-                                <th>Descripción</th>
-                                <th>Acciones</th>
-                            </tr>
-                        </thead>
-                        <tbody id="quizzes-tbody">
-                        </tbody>
-                    </table>
-                </div>
+                    </div>
+                    <div class="preguntas-container">
+                        <h3>Preguntas del Quiz</h3>
+                        <p><em>Nota: Para agregar preguntas al quiz, primero créalas en la pestaña "Preguntas"</em></p>
+                        <div id="preguntasContainer"></div>
+                    </div>
+                    <button type="submit" class="btn btn-primary">💾 Guardar Quiz</button>
+                    <button type="button" class="btn btn-warning" onclick="clearQuizForm()">🔄 Limpiar</button>
+                </form>
             </div>
-        </main>
+            
+            <div class="table-container">
+                <table>
+                    <thead>
+                        <tr>
+                            <th>ID</th>
+                            <th>Título</th>
+                            <th>Duración Max</th>
+                            <th>Nivel</th>
+                            <th># Preguntas</th>
+                            <th>Acciones</th>
+                        </tr>
+                    </thead>
+                    <tbody id="quizzesTableBody">
+                        <tr>
+                            <td colspan="6" class="loading">
+                                <div class="spinner"></div>
+                                Cargando quizzes...
+                            </td>
+                        </tr>
+                    </tbody>
+                </table>
+            </div>
+        </div>
     </div>
-
-    <!-- Loading overlay -->
-    <div id="loading-overlay" style="display: none;">
-        <div class="loading-spinner"></div>
-    </div>
-
-    <!-- Toast notification -->
-    <div id="toast" class="toast"></div>
 
     <script src="app.js"></script>
 </body>

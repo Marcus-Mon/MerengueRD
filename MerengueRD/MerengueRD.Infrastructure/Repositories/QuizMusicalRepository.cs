@@ -16,19 +16,26 @@ namespace MerengueRD.Infrastructure.Repositories
         }
         public async Task<QuizMusical?> GetByIdAsync(int id)
         {
-            return await _context.QuizMusicals.FindAsync(id);
+            return await _context.QuizMusicals
+                .Include(q => q.Preguntas)
+                .FirstOrDefaultAsync(q => q.Id == id);
         }
+
         public async Task<IEnumerable<QuizMusical>> GetAllAsync()
         {
-            return await _context.QuizMusicals.ToListAsync();
+            return await _context.QuizMusicals
+                .Include(q => q.Preguntas)
+                .ToListAsync();
         }
         public async Task AddAsync(QuizMusical quizMusical)
         {
             await _context.QuizMusicals.AddAsync(quizMusical);
+            await _context.SaveChangesAsync();
         }
         public async Task UpdateAsync(QuizMusical quizMusical)
         {
             _context.QuizMusicals.Update(quizMusical);
+            await _context.SaveChangesAsync();
         }
         public async Task DeleteAsync(int id)
         {
@@ -36,6 +43,7 @@ namespace MerengueRD.Infrastructure.Repositories
             if (quizMusical != null)
             {
                 _context.QuizMusicals.Remove(quizMusical);
+                await _context.SaveChangesAsync();
             }
         }
     }

@@ -52,19 +52,27 @@ namespace MerengueRD.Infrastructure.Repositories
                 FotoUrl = dto.FotoUrl,
             };
             await _repository.AddAsync(artist);
+            dto.Id = artist.Id;
         }
         public async Task UpdateAsync(ArtistDto dto)
         {
-            var song = new Artist
+            var existing = await _repository.GetByIdAsync(dto.Id);
+            if (existing == null)
+            {
+                throw new KeyNotFoundException($"El artista con ID {dto.Id} no existe.");
+            }
+
+            var artist = new Artist
             {
                 Id = dto.Id,
                 Nombre = dto.Nombre,
                 FechaNacimiento = dto.FechaNacimiento,
                 Nacionalidad = dto.Nacionalidad,
                 Biografia = dto.Biografia,
-                FotoUrl = dto.FotoUrl,
+                FotoUrl = dto.FotoUrl
             };
-            await _repository.UpdateAsync(song);
+
+            await _repository.UpdateAsync(artist);
         }
         public async Task DeleteAsync(int id)
         {

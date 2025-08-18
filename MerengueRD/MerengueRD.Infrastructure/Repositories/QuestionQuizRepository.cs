@@ -25,10 +25,12 @@ namespace MerengueRD.Infrastructure.Repositories
         public async Task AddAsync(QuestionQuiz questionQuiz)
         {
             await _context.QuestionQuizzes.AddAsync(questionQuiz);
+            await _context.SaveChangesAsync();
         }
         public async Task UpdateAsync(QuestionQuiz questionQuiz)
         {
             _context.QuestionQuizzes.Update(questionQuiz);
+            await _context.SaveChangesAsync();
         }
         public async Task DeleteAsync(int id)
         {
@@ -36,6 +38,7 @@ namespace MerengueRD.Infrastructure.Repositories
             if (questionQuiz != null)
             {
                 _context.QuestionQuizzes.Remove(questionQuiz);
+                await _context.SaveChangesAsync();
             }
         }
     }

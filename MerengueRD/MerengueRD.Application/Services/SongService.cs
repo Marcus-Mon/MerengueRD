@@ -51,6 +51,7 @@ namespace MerengueRD.Application.Services
                 AudioUrl = dto.AudioUrl,
             };
             await _repository.AddAsync(song);
+            dto.Id = song.Id;
         }
 
         public async Task UpdateAsync(SongDto dto)

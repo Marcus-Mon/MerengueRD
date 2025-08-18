@@ -24,10 +24,12 @@ namespace MerengueRD.Infrastructure.Repositories
         public async Task AddAsync(EventChronological eventChronological)
         {
             await _context.EventChronologicals.AddAsync(eventChronological);
+            await _context.SaveChangesAsync();
         }
         public async Task UpdateAsync(EventChronological eventChronological)
         {
             _context.EventChronologicals.Update(eventChronological);
+            await _context.SaveChangesAsync();
         }
         public async Task DeleteAsync(int id)
         {
@@ -35,6 +37,7 @@ namespace MerengueRD.Infrastructure.Repositories
             if (eventChronological != null)
             {
                 _context.EventChronologicals.Remove(eventChronological);
+                await _context.SaveChangesAsync();
             }
         }
     }

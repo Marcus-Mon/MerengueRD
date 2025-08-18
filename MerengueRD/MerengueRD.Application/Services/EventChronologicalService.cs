@@ -49,6 +49,7 @@ namespace MerengueRD.Application.Services
                 ImagenUrl = dto.ImagenUrl,
             };
             await _repository.AddAsync(eventchronological);
+            dto.Id = eventchronological.Id;
         }
         public async Task UpdateAsync(EventChronologicalDto dto)
         {
