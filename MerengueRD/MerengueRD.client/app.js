@@ -1,4 +1,4 @@
-const API_BASE_URL = 'https://localhost:5001/api'; // Ajustar según tu configuración
+const API_BASE_URL = 'http://localhost:5167/swagger/index.html'; // Ajustar según tu configuración
 let isEditing = false;
 
 // Utility functions
