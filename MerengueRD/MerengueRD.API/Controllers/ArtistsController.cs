@@ -1,10 +1,8 @@
-﻿using MerengueRD.Application.DTOs;
-using MerengueRD.Application.Services;
-using MerengueRD.Domain.Entities;
+﻿using Microsoft.AspNetCore.Mvc;
+using MerengueRD.Application.DTOs;
 using MerengueRD.Infrastructure.Repositories;
-using Microsoft.AspNetCore.Mvc;
 
-namespace MerengueRD.API.Controllers
+namespace MerengueRD.Api.Controllers
 {
     [ApiController]
     [Route("api/[controller]")]
@@ -17,99 +15,53 @@ namespace MerengueRD.API.Controllers
             _artistService = artistService;
         }
 
+        // GET: api/artists
         [HttpGet]
-        public async Task<ActionResult<IEnumerable<Artist>>> GetAllArtists()
+        public async Task<ActionResult<IEnumerable<ArtistDto>>> GetAll()
         {
-            try
-            {
-                var artists = await _artistService.GetAllAsync();
-                return Ok(artists);
-            }
-            catch (Exception ex)
-            {
-                return BadRequest($"Error: {ex.Message}");
-            }
+            var artists = await _artistService.GetAllAsync();
+            return Ok(artists);
         }
 
+        // GET: api/artists/5
         [HttpGet("{id}")]
-        public async Task<ActionResult<Artist>> GetArtist(int id)
+        public async Task<ActionResult<ArtistDto>> GetById(int id)
         {
-            try
-            {
-                var artist = await _artistService.GetByIdAsync(id);
-                if (artist == null)
-                    return NotFound($"Artista con ID {id} no encontrado");
+            var artist = await _artistService.GetByIdAsync(id);
+            if (artist == null)
+                return NotFound();
 
-                return Ok(artist);
-            }
-            catch (Exception ex)
-            {
-                return BadRequest($"Error: {ex.Message}");
-            }
+            return Ok(artist);
         }
 
-        [HttpGet("search/{name}")]
-        public async Task<ActionResult<IEnumerable<Artist>>> SearchArtistsByName(string name)
-        {
-            try
-            {
-                var artists = await _artistService.SearchByNameAsync(name);
-                return Ok(artists);
-            }
-            catch (Exception ex)
-            {
-                return BadRequest($"Error: {ex.Message}");
-            }
-        }
-
+        // POST: api/artists
         [HttpPost]
-        public async Task<ActionResult<Artist>> CreateArtist([FromBody] Artist artist)
+        public async Task<ActionResult> Create([FromBody] ArtistDto dto)
         {
-            try
-            {
-                if (!ModelState.IsValid)
-                    return BadRequest(ModelState);
+            if (dto == null)
+                return BadRequest("El artista no puede ser nulo.");
 
-                var createdArtist = await _artistService.AddAsync(artist);
-                return CreatedAtAction(nameof(GetArtist), new { id = createdArtist.Id }, createdArtist);
-            }
-            catch (Exception ex)
-            {
-                return BadRequest($"Error: {ex.Message}");
-            }
+            await _artistService.AddAsync(dto);
+            return CreatedAtAction(nameof(GetById), new { id = dto.Id }, dto);
         }
 
+        // PUT: api/artists/5
         [HttpPut("{id}")]
-        public async Task<ActionResult<Artist>> UpdateArtist(int id, [FromBody] Artist artist)
+        public async Task<ActionResult> Update(int id, [FromBody] ArtistDto dto)
         {
-            try
-            {
-                if (id != artist.Id)
-                    return BadRequest("El ID no coincide");
+            if (id != dto.Id)
+                return BadRequest("El ID del artista no coincide.");
 
-                if (!ModelState.IsValid)
-                    return BadRequest(ModelState);
-
-                var updatedArtist = await _artistService.UpdateAsync(artist);
-                return Ok(updatedArtist);
-            }
-            catch (Exception ex)
-            {
-                return BadRequest($"Error: {ex.Message}");
-            }
+            await _artistService.UpdateAsync(dto);
+            return NoContent();
         }
 
+        // DELETE: api/artists/5
         [HttpDelete("{id}")]
-        public async Task<ActionResult> DeleteArtist(int id)
+        public async Task<ActionResult> Delete(int id)
         {
-            try
-            {
-                await _artistService.DeleteAsync(id);
-                return NoContent();
-            }
-            catch (Exception ex)
-            {
-                return BadRequest($"Error: {ex.Message}");
-            }
+            await _artistService.DeleteAsync(id);
+            return NoContent();
         }
+    }
 }

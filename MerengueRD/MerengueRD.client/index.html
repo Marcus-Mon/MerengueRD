@@ -51,24 +51,24 @@
                     <form id="artistForm">
                         <input type="hidden" id="artist-id">
                         <div class="form-group">
-                            <label for="artist-nombre">Nombre:</label>
-                            <input type="text" id="artist-nombre" required>
+                            <label for="artist-name">Nombre:</label>
+                            <input type="text" id="artist-name" required>
                         </div>
                         <div class="form-group">
-                            <label for="artist-fecha">Fecha de Nacimiento:</label>
-                            <input type="date" id="artist-fecha" required>
+                            <label for="artist-birthdate">Fecha de Nacimiento:</label>
+                            <input type="date" id="artist-birthdate">
                         </div>
                         <div class="form-group">
-                            <label for="artist-nacionalidad">Nacionalidad:</label>
-                            <input type="text" id="artist-nacionalidad" required>
+                            <label for="artist-nationality">Nacionalidad:</label>
+                            <input type="text" id="artist-nationality">
                         </div>
                         <div class="form-group">
-                            <label for="artist-biografia">Biografía:</label>
-                            <textarea id="artist-biografia" rows="4"></textarea>
+                            <label for="artist-biography">Biografía:</label>
+                            <textarea id="artist-biography" rows="4"></textarea>
                         </div>
                         <div class="form-group">
-                            <label for="artist-foto">URL de Foto:</label>
-                            <input type="url" id="artist-foto">
+                            <label for="artist-photo">URL de Foto:</label>
+                            <input type="url" id="artist-photo">
                         </div>
                         <div class="form-actions">
                             <button type="submit" class="btn-primary">Guardar</button>
@@ -106,20 +106,20 @@
                     <form id="songForm">
                         <input type="hidden" id="song-id">
                         <div class="form-group">
-                            <label for="song-titulo">Título:</label>
-                            <input type="text" id="song-titulo" required>
+                            <label for="song-title">Título:</label>
+                            <input type="text" id="song-title" required>
                         </div>
                         <div class="form-group">
-                            <label for="song-duracion">Duración:</label>
-                            <input type="text" id="song-duracion" placeholder="ej: 3:45">
+                            <label for="song-duration">Duración:</label>
+                            <input type="text" id="song-duration" placeholder="ej: 3:45">
                         </div>
                         <div class="form-group">
-                            <label for="song-fecha">Fecha de Lanzamiento:</label>
-                            <input type="date" id="song-fecha" required>
+                            <label for="song-release-date">Fecha de Lanzamiento:</label>
+                            <input type="date" id="song-release-date">
                         </div>
                         <div class="form-group">
-                            <label for="song-descripcion">Descripción:</label>
-                            <textarea id="song-descripcion" rows="3"></textarea>
+                            <label for="song-description">Descripción:</label>
+                            <textarea id="song-description" rows="3"></textarea>
                         </div>
                         <div class="form-group">
                             <label for="song-audio">URL de Audio:</label>
@@ -161,20 +161,24 @@
                     <form id="eventForm">
                         <input type="hidden" id="event-id">
                         <div class="form-group">
-                            <label for="event-titulo">Título:</label>
-                            <input type="text" id="event-titulo" required>
+                            <label for="event-title">Título:</label>
+                            <input type="text" id="event-title" required>
                         </div>
                         <div class="form-group">
-                            <label for="event-fecha">Fecha:</label>
-                            <input type="date" id="event-fecha" required>
+                            <label for="event-start-date">Fecha de Inicio:</label>
+                            <input type="date" id="event-start-date" required>
                         </div>
                         <div class="form-group">
-                            <label for="event-descripcion">Descripción:</label>
-                            <textarea id="event-descripcion" rows="4"></textarea>
+                            <label for="event-end-date">Fecha de Fin:</label>
+                            <input type="date" id="event-end-date">
                         </div>
                         <div class="form-group">
-                            <label for="event-imagen">URL de Imagen:</label>
-                            <input type="url" id="event-imagen">
+                            <label for="event-description">Descripción:</label>
+                            <textarea id="event-description" rows="4"></textarea>
+                        </div>
+                        <div class="form-group">
+                            <label for="event-image">URL de Imagen:</label>
+                            <input type="url" id="event-image">
                         </div>
                         <div class="form-actions">
                             <button type="submit" class="btn-primary">Guardar</button>
@@ -189,7 +193,8 @@
                             <tr>
                                 <th>Imagen</th>
                                 <th>Título</th>
-                                <th>Fecha</th>
+                                <th>Fecha Inicio</th>
+                                <th>Fecha Fin</th>
                                 <th>Descripción</th>
                                 <th>Acciones</th>
                             </tr>
@@ -212,12 +217,12 @@
                     <form id="questionForm">
                         <input type="hidden" id="question-id">
                         <div class="form-group">
-                            <label for="question-enunciado">Enunciado:</label>
-                            <textarea id="question-enunciado" rows="3" required></textarea>
+                            <label for="question-text">Enunciado:</label>
+                            <textarea id="question-text" rows="3" required></textarea>
                         </div>
                         <div class="form-group">
-                            <label for="question-tipo">Tipo:</label>
-                            <select id="question-tipo" required>
+                            <label for="question-type">Tipo:</label>
+                            <select id="question-type" required>
                                 <option value="">Seleccionar tipo</option>
                                 <option value="multiple">Opción múltiple</option>
                                 <option value="verdadero_falso">Verdadero/Falso</option>
@@ -225,12 +230,12 @@
                             </select>
                         </div>
                         <div class="form-group">
-                            <label for="question-opciones">Opciones (separadas por coma):</label>
-                            <input type="text" id="question-opciones" placeholder="ej: Opción A, Opción B, Opción C">
+                            <label for="question-options">Opciones (separadas por coma):</label>
+                            <input type="text" id="question-options" placeholder="ej: Opción A, Opción B, Opción C">
                         </div>
                         <div class="form-group">
-                            <label for="question-respuesta">Respuesta Correcta:</label>
-                            <input type="text" id="question-respuesta" required>
+                            <label for="question-answer">Respuesta Correcta:</label>
+                            <input type="text" id="question-answer" required>
                         </div>
                         <div class="form-actions">
                             <button type="submit" class="btn-primary">Guardar</button>
@@ -267,21 +272,25 @@
                     <form id="quizForm">
                         <input type="hidden" id="quiz-id">
                         <div class="form-group">
-                            <label for="quiz-titulo">Título:</label>
-                            <input type="text" id="quiz-titulo" required>
+                            <label for="quiz-title">Título:</label>
+                            <input type="text" id="quiz-title" required>
                         </div>
                         <div class="form-group">
-                            <label for="quiz-duracion">Duración Máxima:</label>
-                            <input type="text" id="quiz-duracion" placeholder="ej: 10 minutos">
+                            <label for="quiz-duration">Duración Máxima (minutos):</label>
+                            <input type="number" id="quiz-duration" placeholder="ej: 10">
                         </div>
                         <div class="form-group">
-                            <label for="quiz-nivel">Nivel:</label>
-                            <select id="quiz-nivel" required>
+                            <label for="quiz-level">Nivel de Dificultad:</label>
+                            <select id="quiz-level" required>
                                 <option value="">Seleccionar nivel</option>
-                                <option value="principiante">Principiante</option>
-                                <option value="intermedio">Intermedio</option>
-                                <option value="avanzado">Avanzado</option>
+                                <option value="1">Fácil</option>
+                                <option value="2">Intermedio</option>
+                                <option value="3">Difícil</option>
                             </select>
+                        </div>
+                        <div class="form-group">
+                            <label for="quiz-description">Descripción:</label>
+                            <textarea id="quiz-description" rows="3"></textarea>
                         </div>
                         <div class="form-actions">
                             <button type="submit" class="btn-primary">Guardar</button>
@@ -297,7 +306,7 @@
                                 <th>Título</th>
                                 <th>Duración</th>
                                 <th>Nivel</th>
-                                <th>Preguntas</th>
+                                <th>Descripción</th>
                                 <th>Acciones</th>
                             </tr>
                         </thead>

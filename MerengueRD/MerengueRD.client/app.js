@@ -1,4 +1,4 @@
-const API_BASE_URL = 'https://localhost:7102/api'; 
+const API_BASE_URL = 'https://localhost:5001/api'; // Ajustar según tu configuración
 let isEditing = false;
 
 // Utility functions
@@ -35,7 +35,6 @@ function formatDateForInput(dateString) {
 
 // Tab Management
 document.addEventListener('DOMContentLoaded', function() {
-    // Tab functionality
     const tabButtons = document.querySelectorAll('.tab-btn');
     const tabContents = document.querySelectorAll('.tab-content');
 
@@ -43,20 +42,16 @@ document.addEventListener('DOMContentLoaded', function() {
         button.addEventListener('click', () => {
             const tabId = button.getAttribute('data-tab');
             
-            // Remove active classes
             tabButtons.forEach(btn => btn.classList.remove('active'));
             tabContents.forEach(content => content.classList.remove('active'));
             
-            // Add active classes
             button.classList.add('active');
             document.getElementById(tabId).classList.add('active');
             
-            // Load data for the selected tab
             loadTabData(tabId);
         });
     });
 
-    // Load initial data
     loadTabData('artists');
 });
 
@@ -89,7 +84,6 @@ async function loadArtists() {
         
         const artists = await response.json();
         displayArtists(artists);
-        showToast('Artistas cargados correctamente');
     } catch (error) {
         showToast('Error: ' + error.message, 'error');
         console.error('Error loading artists:', error);
@@ -106,14 +100,14 @@ function displayArtists(artists) {
         const row = document.createElement('tr');
         row.innerHTML = `
             <td>
-                ${artist.fotoUrl ? 
-                    `<img src="${artist.fotoUrl}" alt="${artist.nombre}" class="image-preview">` : 
+                ${artist.photoUrl ? 
+                    `<img src="${artist.photoUrl}" alt="${artist.name}" class="image-preview">` : 
                     '<div class="image-preview" style="background: var(--medium-gray); display: flex; align-items: center; justify-content: center;">Sin foto</div>'
                 }
             </td>
-            <td><strong>${artist.nombre}</strong></td>
-            <td>${formatDate(artist.fechaNacimiento)}</td>
-            <td>${artist.nacionalidad}</td>
+            <td><strong>${artist.name}</strong></td>
+            <td>${formatDate(artist.birthDate)}</td>
+            <td>${artist.nationality || 'N/A'}</td>
             <td>
                 <button class="btn-primary btn-sm btn-edit" onclick="editArtist(${artist.id})">✏️ Editar</button>
                 <button class="btn-primary btn-sm btn-delete" onclick="deleteArtist(${artist.id})">🗑️ Eliminar</button>
@@ -146,11 +140,11 @@ async function editArtist(id) {
         const artist = await response.json();
         
         document.getElementById('artist-id').value = artist.id;
-        document.getElementById('artist-nombre').value = artist.nombre;
-        document.getElementById('artist-fecha').value = formatDateForInput(artist.fechaNacimiento);
-        document.getElementById('artist-nacionalidad').value = artist.nacionalidad;
-        document.getElementById('artist-biografia').value = artist.biografia || '';
-        document.getElementById('artist-foto').value = artist.fotoUrl || '';
+        document.getElementById('artist-name').value = artist.name;
+        document.getElementById('artist-birthdate').value = formatDateForInput(artist.birthDate);
+        document.getElementById('artist-nationality').value = artist.nationality || '';
+        document.getElementById('artist-biography').value = artist.biography || '';
+        document.getElementById('artist-photo').value = artist.photoUrl || '';
         
         document.getElementById('artist-form-title').textContent = 'Editar Artista';
         document.getElementById('artist-form').style.display = 'block';
@@ -188,11 +182,11 @@ document.getElementById('artistForm').addEventListener('submit', async function(
     e.preventDefault();
     
     const artistData = {
-        nombre: document.getElementById('artist-nombre').value,
-        fechaNacimiento: document.getElementById('artist-fecha').value,
-        nacionalidad: document.getElementById('artist-nacionalidad').value,
-        biografia: document.getElementById('artist-biografia').value,
-        fotoUrl: document.getElementById('artist-foto').value
+        name: document.getElementById('artist-name').value,
+        birthDate: document.getElementById('artist-birthdate').value,
+        nationality: document.getElementById('artist-nationality').value,
+        biography: document.getElementById('artist-biography').value,
+        photoUrl: document.getElementById('artist-photo').value
     };
     
     showLoading();
@@ -239,7 +233,6 @@ async function loadSongs() {
         
         const songs = await response.json();
         displaySongs(songs);
-        showToast('Canciones cargadas correctamente');
     } catch (error) {
         showToast('Error: ' + error.message, 'error');
         console.error('Error loading songs:', error);
@@ -255,9 +248,9 @@ function displaySongs(songs) {
     songs.forEach(song => {
         const row = document.createElement('tr');
         row.innerHTML = `
-            <td><strong>${song.titulo}</strong></td>
-            <td>${song.duracion}</td>
-            <td>${formatDate(song.fechaLanzamiento)}</td>
+            <td><strong>${song.title}</strong></td>
+            <td>${song.duration || 'N/A'}</td>
+            <td>${formatDate(song.releaseDate)}</td>
             <td>
                 ${song.audioUrl ? 
                     `<audio controls style="width: 200px;"><source src="${song.audioUrl}" type="audio/mpeg">Tu navegador no soporta audio.</audio>` : 
@@ -296,10 +289,10 @@ async function editSong(id) {
         const song = await response.json();
         
         document.getElementById('song-id').value = song.id;
-        document.getElementById('song-titulo').value = song.titulo;
-        document.getElementById('song-duracion').value = song.duracion;
-        document.getElementById('song-fecha').value = formatDateForInput(song.fechaLanzamiento);
-        document.getElementById('song-descripcion').value = song.description || '';
+        document.getElementById('song-title').value = song.title;
+        document.getElementById('song-duration').value = song.duration || '';
+        document.getElementById('song-release-date').value = formatDateForInput(song.releaseDate);
+        document.getElementById('song-description').value = song.description || '';
         document.getElementById('song-audio').value = song.audioUrl || '';
         
         document.getElementById('song-form-title').textContent = 'Editar Canción';
@@ -338,10 +331,10 @@ document.getElementById('songForm').addEventListener('submit', async function(e)
     e.preventDefault();
     
     const songData = {
-        titulo: document.getElementById('song-titulo').value,
-        duracion: document.getElementById('song-duracion').value,
-        fechaLanzamiento: document.getElementById('song-fecha').value,
-        description: document.getElementById('song-descripcion').value,
+        title: document.getElementById('song-title').value,
+        duration: document.getElementById('song-duration').value,
+        releaseDate: document.getElementById('song-release-date').value,
+        description: document.getElementById('song-description').value,
         audioUrl: document.getElementById('song-audio').value
     };
     
@@ -384,12 +377,11 @@ document.getElementById('songForm').addEventListener('submit', async function(e)
 async function loadEvents() {
     showLoading();
     try {
-        const response = await fetch(`${API_BASE_URL}/EventChronological`);
+        const response = await fetch(`${API_BASE_URL}/EventChronologicals`);
         if (!response.ok) throw new Error('Error al cargar eventos');
         
         const events = await response.json();
         displayEvents(events);
-        showToast('Eventos cargados correctamente');
     } catch (error) {
         showToast('Error: ' + error.message, 'error');
         console.error('Error loading events:', error);
@@ -406,14 +398,15 @@ function displayEvents(events) {
         const row = document.createElement('tr');
         row.innerHTML = `
             <td>
-                ${event.imagenUrl ? 
-                    `<img src="${event.imagenUrl}" alt="${event.titulo}" class="image-preview">` : 
+                ${event.imageUrl ? 
+                    `<img src="${event.imageUrl}" alt="${event.title}" class="image-preview">` : 
                     '<div class="image-preview" style="background: var(--medium-gray); display: flex; align-items: center; justify-content: center;">Sin imagen</div>'
                 }
             </td>
-            <td><strong>${event.titulo}</strong></td>
-            <td>${formatDate(event.fechainicio)}</td>
-            <td>${event.description ? event.description.substring(0, 100) + '...' : 'Sin descripción'}</td>
+            <td><strong>${event.title}</strong></td>
+            <td>${formatDate(event.startDate)}</td>
+            <td>${formatDate(event.endDate)}</td>
+            <td>${event.description ? (event.description.length > 100 ? event.description.substring(0, 100) + '...' : event.description) : 'Sin descripción'}</td>
             <td>
                 <button class="btn-primary btn-sm btn-edit" onclick="editEvent(${event.id})">✏️ Editar</button>
                 <button class="btn-primary btn-sm btn-delete" onclick="deleteEvent(${event.id})">🗑️ Eliminar</button>
@@ -440,16 +433,17 @@ function hideEventForm() {
 async function editEvent(id) {
     showLoading();
     try {
-        const response = await fetch(`${API_BASE_URL}/EventChronological/${id}`);
+        const response = await fetch(`${API_BASE_URL}/EventChronologicals/${id}`);
         if (!response.ok) throw new Error('Error al cargar evento');
         
         const event = await response.json();
         
         document.getElementById('event-id').value = event.id;
-        document.getElementById('event-titulo').value = event.titulo;
-        document.getElementById('event-fecha').value = formatDateForInput(event.fechainicio);
-        document.getElementById('event-descripcion').value = event.description || '';
-        document.getElementById('event-imagen').value = event.imagenUrl || '';
+        document.getElementById('event-title').value = event.title;
+        document.getElementById('event-start-date').value = formatDateForInput(event.startDate);
+        document.getElementById('event-end-date').value = formatDateForInput(event.endDate);
+        document.getElementById('event-description').value = event.description || '';
+        document.getElementById('event-image').value = event.imageUrl || '';
         
         document.getElementById('event-form-title').textContent = 'Editar Evento';
         document.getElementById('event-form').style.display = 'block';
@@ -467,7 +461,7 @@ async function deleteEvent(id) {
     
     showLoading();
     try {
-        const response = await fetch(`${API_BASE_URL}/EventChronological/${id}`, {
+        const response = await fetch(`${API_BASE_URL}/EventChronologicals/${id}`, {
             method: 'DELETE'
         });
         
@@ -487,10 +481,11 @@ document.getElementById('eventForm').addEventListener('submit', async function(e
     e.preventDefault();
     
     const eventData = {
-        titulo: document.getElementById('event-titulo').value,
-        fechainicio: document.getElementById('event-fecha').value,
-        description: document.getElementById('event-descripcion').value,
-        imagenUrl: document.getElementById('event-imagen').value
+        title: document.getElementById('event-title').value,
+        startDate: document.getElementById('event-start-date').value,
+        endDate: document.getElementById('event-end-date').value,
+        description: document.getElementById('event-description').value,
+        imageUrl: document.getElementById('event-image').value
     };
     
     showLoading();
@@ -499,7 +494,7 @@ document.getElementById('eventForm').addEventListener('submit', async function(e
         if (isEditing) {
             const id = document.getElementById('event-id').value;
             eventData.id = parseInt(id);
-            response = await fetch(`${API_BASE_URL}/EventChronological/${id}`, {
+            response = await fetch(`${API_BASE_URL}/EventChronologicals/${id}`, {
                 method: 'PUT',
                 headers: {
                     'Content-Type': 'application/json'
@@ -507,7 +502,7 @@ document.getElementById('eventForm').addEventListener('submit', async function(e
                 body: JSON.stringify(eventData)
             });
         } else {
-            response = await fetch(`${API_BASE_URL}/EventChronological`, {
+            response = await fetch(`${API_BASE_URL}/EventChronologicals`, {
                 method: 'POST',
                 headers: {
                     'Content-Type': 'application/json'
@@ -532,12 +527,11 @@ document.getElementById('eventForm').addEventListener('submit', async function(e
 async function loadQuestions() {
     showLoading();
     try {
-        const response = await fetch(`${API_BASE_URL}/QuestionQuiz`);
+        const response = await fetch(`${API_BASE_URL}/QuestionQuizzes`);
         if (!response.ok) throw new Error('Error al cargar preguntas');
         
         const questions = await response.json();
         displayQuestions(questions);
-        showToast('Preguntas cargadas correctamente');
     } catch (error) {
         showToast('Error: ' + error.message, 'error');
         console.error('Error loading questions:', error);
@@ -553,9 +547,9 @@ function displayQuestions(questions) {
     questions.forEach(question => {
         const row = document.createElement('tr');
         row.innerHTML = `
-            <td>${question.enunciado.substring(0, 100)}${question.enunciado.length > 100 ? '...' : ''}</td>
-            <td><span class="badge">${question.tipo}</span></td>
-            <td>${question.respuestaCorrecta}</td>
+            <td>${question.text ? (question.text.length > 100 ? question.text.substring(0, 100) + '...' : question.text) : 'Sin texto'}</td>
+            <td><span class="badge">${question.type || 'N/A'}</span></td>
+            <td>${question.correctAnswer || 'N/A'}</td>
             <td>
                 <button class="btn-primary btn-sm btn-edit" onclick="editQuestion(${question.id})">✏️ Editar</button>
                 <button class="btn-primary btn-sm btn-delete" onclick="deleteQuestion(${question.id})">🗑️ Eliminar</button>
@@ -582,16 +576,16 @@ function hideQuestionForm() {
 async function editQuestion(id) {
     showLoading();
     try {
-        const response = await fetch(`${API_BASE_URL}/QuestionQuiz/${id}`);
+        const response = await fetch(`${API_BASE_URL}/QuestionQuizzes/${id}`);
         if (!response.ok) throw new Error('Error al cargar pregunta');
         
         const question = await response.json();
         
         document.getElementById('question-id').value = question.id;
-        document.getElementById('question-enunciado').value = question.enunciado;
-        document.getElementById('question-tipo').value = question.tipo;
-        document.getElementById('question-opciones').value = question.opciones ? question.opciones.join(', ') : '';
-        document.getElementById('question-respuesta').value = question.respuestaCorrecta;
+        document.getElementById('question-text').value = question.text;
+        document.getElementById('question-type').value = question.type;
+        document.getElementById('question-options').value = question.options ? question.options.join(', ') : '';
+        document.getElementById('question-answer').value = question.correctAnswer;
         
         document.getElementById('question-form-title').textContent = 'Editar Pregunta';
         document.getElementById('question-form').style.display = 'block';
@@ -609,7 +603,7 @@ async function deleteQuestion(id) {
     
     showLoading();
     try {
-        const response = await fetch(`${API_BASE_URL}/QuestionQuiz/${id}`, {
+        const response = await fetch(`${API_BASE_URL}/QuestionQuizzes/${id}`, {
             method: 'DELETE'
         });
         
@@ -628,12 +622,12 @@ async function deleteQuestion(id) {
 document.getElementById('questionForm').addEventListener('submit', async function(e) {
     e.preventDefault();
     
-    const opciones = document.getElementById('question-opciones').value;
+    const opciones = document.getElementById('question-options').value;
     const questionData = {
-        enunciado: document.getElementById('question-enunciado').value,
-        tipo: document.getElementById('question-tipo').value,
-        opciones: opciones ? opciones.split(',').map(opt => opt.trim()) : [],
-        respuestaCorrecta: document.getElementById('question-respuesta').value
+        text: document.getElementById('question-text').value,
+        type: document.getElementById('question-type').value,
+        options: opciones ? opciones.split(',').map(opt => opt.trim()) : [],
+        correctAnswer: document.getElementById('question-answer').value
     };
     
     showLoading();
@@ -642,7 +636,7 @@ document.getElementById('questionForm').addEventListener('submit', async functio
         if (isEditing) {
             const id = document.getElementById('question-id').value;
             questionData.id = parseInt(id);
-            response = await fetch(`${API_BASE_URL}/QuestionQuiz/${id}`, {
+            response = await fetch(`${API_BASE_URL}/QuestionQuizzes/${id}`, {
                 method: 'PUT',
                 headers: {
                     'Content-Type': 'application/json'
@@ -650,7 +644,7 @@ document.getElementById('questionForm').addEventListener('submit', async functio
                 body: JSON.stringify(questionData)
             });
         } else {
-            response = await fetch(`${API_BASE_URL}/QuestionQuiz`, {
+            response = await fetch(`${API_BASE_URL}/QuestionQuizzes`, {
                 method: 'POST',
                 headers: {
                     'Content-Type': 'application/json'
@@ -675,12 +669,11 @@ document.getElementById('questionForm').addEventListener('submit', async functio
 async function loadQuizzes() {
     showLoading();
     try {
-        const response = await fetch(`${API_BASE_URL}/QuizMusical`);
+        const response = await fetch(`${API_BASE_URL}/QuizMusicals`);
         if (!response.ok) throw new Error('Error al cargar quizzes');
         
         const quizzes = await response.json();
         displayQuizzes(quizzes);
-        showToast('Quizzes cargados correctamente');
     } catch (error) {
         showToast('Error: ' + error.message, 'error');
         console.error('Error loading quizzes:', error);
@@ -694,12 +687,16 @@ function displayQuizzes(quizzes) {
     tbody.innerHTML = '';
     
     quizzes.forEach(quiz => {
+        const levelText = quiz.difficultyLevel == 1 ? 'Fácil' : 
+                         quiz.difficultyLevel == 2 ? 'Intermedio' : 
+                         quiz.difficultyLevel == 3 ? 'Difícil' : 'N/A';
+        
         const row = document.createElement('tr');
         row.innerHTML = `
-            <td><strong>${quiz.titulo}</strong></td>
-            <td>${quiz.duracionMax}</td>
-            <td><span class="badge">${quiz.nivel}</span></td>
-            <td>${quiz.preguntas ? quiz.preguntas.length : 0} preguntas</td>
+            <td><strong>${quiz.title}</strong></td>
+            <td>${quiz.maxDuration ? quiz.maxDuration + ' min' : 'N/A'}</td>
+            <td><span class="badge">${levelText}</span></td>
+            <td>${quiz.description ? (quiz.description.length > 100 ? quiz.description.substring(0, 100) + '...' : quiz.description) : 'Sin descripción'}</td>
             <td>
                 <button class="btn-primary btn-sm btn-edit" onclick="editQuiz(${quiz.id})">✏️ Editar</button>
                 <button class="btn-primary btn-sm btn-delete" onclick="deleteQuiz(${quiz.id})">🗑️ Eliminar</button>
@@ -726,15 +723,16 @@ function hideQuizForm() {
 async function editQuiz(id) {
     showLoading();
     try {
-        const response = await fetch(`${API_BASE_URL}/QuizMusical/${id}`);
+        const response = await fetch(`${API_BASE_URL}/QuizMusicals/${id}`);
         if (!response.ok) throw new Error('Error al cargar quiz');
         
         const quiz = await response.json();
         
         document.getElementById('quiz-id').value = quiz.id;
-        document.getElementById('quiz-titulo').value = quiz.titulo;
-        document.getElementById('quiz-duracion').value = quiz.duracionMax;
-        document.getElementById('quiz-nivel').value = quiz.nivel;
+        document.getElementById('quiz-title').value = quiz.title;
+        document.getElementById('quiz-duration').value = quiz.maxDuration;
+        document.getElementById('quiz-level').value = quiz.difficultyLevel;
+        document.getElementById('quiz-description').value = quiz.description || '';
         
         document.getElementById('quiz-form-title').textContent = 'Editar Quiz';
         document.getElementById('quiz-form').style.display = 'block';
@@ -752,7 +750,7 @@ async function deleteQuiz(id) {
     
     showLoading();
     try {
-        const response = await fetch(`${API_BASE_URL}/QuizMusical/${id}`, {
+        const response = await fetch(`${API_BASE_URL}/QuizMusicals/${id}`, {
             method: 'DELETE'
         });
         
@@ -772,10 +770,10 @@ document.getElementById('quizForm').addEventListener('submit', async function(e)
     e.preventDefault();
     
     const quizData = {
-        titulo: document.getElementById('quiz-titulo').value,
-        duracionMax: document.getElementById('quiz-duracion').value,
-        nivel: document.getElementById('quiz-nivel').value,
-        preguntas: []
+        title: document.getElementById('quiz-title').value,
+        maxDuration: parseInt(document.getElementById('quiz-duration').value),
+        difficultyLevel: parseInt(document.getElementById('quiz-level').value),
+        description: document.getElementById('quiz-description').value
     };
     
     showLoading();
@@ -784,7 +782,7 @@ document.getElementById('quizForm').addEventListener('submit', async function(e)
         if (isEditing) {
             const id = document.getElementById('quiz-id').value;
             quizData.id = parseInt(id);
-            response = await fetch(`${API_BASE_URL}/QuizMusical/${id}`, {
+            response = await fetch(`${API_BASE_URL}/QuizMusicals/${id}`, {
                 method: 'PUT',
                 headers: {
                     'Content-Type': 'application/json'
@@ -792,7 +790,7 @@ document.getElementById('quizForm').addEventListener('submit', async function(e)
                 body: JSON.stringify(quizData)
             });
         } else {
-            response = await fetch(`${API_BASE_URL}/QuizMusical`, {
+            response = await fetch(`${API_BASE_URL}/QuizMusicals`, {
                 method: 'POST',
                 headers: {
                     'Content-Type': 'application/json'
@@ -812,3 +810,4 @@ document.getElementById('quizForm').addEventListener('submit', async function(e)
         hideLoading();
     }
 });
+    

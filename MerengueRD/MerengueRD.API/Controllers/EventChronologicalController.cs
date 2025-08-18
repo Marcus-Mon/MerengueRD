@@ -1,127 +1,63 @@
-﻿using MerengueRD.Application.Services;
-using MerengueRD.Domain.Entities;
-using Microsoft.AspNetCore.Mvc;
+﻿using Microsoft.AspNetCore.Mvc;
+using MerengueRD.Application.DTOs;
+using MerengueRD.Application.Services;
 
-namespace MerengueRD.API.Controllers
+namespace MerengueRD.Api.Controllers
 {
     [ApiController]
     [Route("api/[controller]")]
-    public class EventChronologicalController : ControllerBase
+    public class EventChronologicalsController : ControllerBase
     {
-        private readonly EventChronologicalService _eventService;
+        private readonly EventChronologicalService _service;
 
-        public EventChronologicalController(EventChronologicalService eventService)
+        public EventChronologicalsController(EventChronologicalService service)
         {
-            _eventService = eventService;
+            _service = service;
         }
 
         [HttpGet]
-        public async Task<ActionResult<IEnumerable<EventChronological>>> GetAllEvents()
+        public async Task<ActionResult<IEnumerable<EventChronologicalDto>>> GetAll()
         {
-            try
-            {
-                var events = await _eventService.GetAllAsync();
-                return Ok(events);
-            }
-            catch (Exception ex)
-            {
-                return BadRequest($"Error: {ex.Message}");
-            }
-        }
-
-        [HttpGet("chronological")]
-        public async Task<ActionResult<IEnumerable<EventChronological>>> GetEventsChronologically()
-        {
-            try
-            {
-                var events = await _eventService.GetEventsChronologicallyAsync();
-                return Ok(events);
-            }
-            catch (Exception ex)
-            {
-                return BadRequest($"Error: {ex.Message}");
-            }
+            var events = await _service.GetAllAsync();
+            return Ok(events);
         }
 
         [HttpGet("{id}")]
-        public async Task<ActionResult<EventChronological>> GetEvent(int id)
+        public async Task<ActionResult<EventChronologicalDto>> GetById(int id)
         {
-            try
-            {
-                var eventItem = await _eventService.GetByIdAsync(id);
-                if (eventItem == null)
-                    return NotFound($"Evento con ID {id} no encontrado");
+            var eventChronological = await _service.GetByIdAsync(id);
+            if (eventChronological == null)
+                return NotFound();
 
-                return Ok(eventItem);
-            }
-            catch (Exception ex)
-            {
-                return BadRequest($"Error: {ex.Message}");
-            }
+            return Ok(eventChronological);
         }
 
-        [HttpGet("by-year/{year}")]
-        public async Task<ActionResult<IEnumerable<EventChronological>>> GetEventsByYear(int year)
-        {
-            try
-            {
-                var events = await _eventService.GetEventsByYearAsync(year);
-                return Ok(events);
-            }
-            catch (Exception ex)
-            {
-                return BadRequest($"Error: {ex.Message}");
-            }
-        }
-
+        // POST: api/eventchronologicals
         [HttpPost]
-        public async Task<ActionResult<EventChronological>> CreateEvent([FromBody] EventChronological eventItem)
+        public async Task<ActionResult> Create([FromBody] EventChronologicalDto dto)
         {
-            try
-            {
-                if (!ModelState.IsValid)
-                    return BadRequest(ModelState);
+            if (dto == null)
+                return BadRequest("El evento no puede ser nulo.");
 
-                var createdEvent = await _eventService.AddAsync(eventItem);
-                return CreatedAtAction(nameof(GetEvent), new { id = createdEvent.Id }, createdEvent);
-            }
-            catch (Exception ex)
-            {
-                return BadRequest($"Error: {ex.Message}");
-            }
+            await _service.AddAsync(dto);
+            return CreatedAtAction(nameof(GetById), new { id = dto.Id }, dto);
         }
 
         [HttpPut("{id}")]
-        public async Task<ActionResult<EventChronological>> UpdateEvent(int id, [FromBody] EventChronological eventItem)
+        public async Task<ActionResult> Update(int id, [FromBody] EventChronologicalDto dto)
         {
-            try
-            {
-                if (id != eventItem.Id)
-                    return BadRequest("El ID no coincide");
+            if (id != dto.Id)
+                return BadRequest("El ID del evento no coincide.");
 
-                if (!ModelState.IsValid)
-                    return BadRequest(ModelState);
-
-                var updatedEvent = await _eventService.UpdateAsync(eventItem);
-                return Ok(updatedEvent);
-            }
-            catch (Exception ex)
-            {
-                return BadRequest($"Error: {ex.Message}");
-            }
+            await _service.UpdateAsync(dto);
+            return NoContent();
         }
 
         [HttpDelete("{id}")]
-        public async Task<ActionResult> DeleteEvent(int id)
+        public async Task<ActionResult> Delete(int id)
         {
-            try
-            {
-                await _eventService.DeleteAsync(id);
-                return NoContent();
-            }
-            catch (Exception ex)
-            {
-                return BadRequest($"Error: {ex.Message}");
-            }
+            await _service.DeleteAsync(id);
+            return NoContent();
         }
+    }
 }

@@ -70,6 +70,8 @@ namespace MerengueRD.Application.Services
                     RespuestaCorrecta = p.RespuestaCorrecta
                 }).ToList()
             };
+            _repository.AddAsync(quizmusicals);
+
         }
 
         public async Task UpdateAsync(QuizMusicalDto dto)

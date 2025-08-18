@@ -26,6 +26,7 @@ namespace MerengueRD.Application.Services
 
             };
 
+
         }
         public async Task<IEnumerable<QuestionQuizDto>> GetAllAsync()
         {
@@ -48,6 +49,7 @@ namespace MerengueRD.Application.Services
                 Opciones = dto.Opciones,
                 RespuestaCorrecta = dto.RespuestaCorrecta,
             };
+            await _repository.AddAsync(questionquiz);
         }
         public async Task UpdateAsync(QuestionQuizDto dto)
         {

@@ -1,128 +1,62 @@
-﻿using MerengueRD.Application.DTOs;
+﻿using Microsoft.AspNetCore.Mvc;
+using MerengueRD.Application.DTOs;
 using MerengueRD.Application.Services;
-using MerengueRD.Domain.Entities;
-using Microsoft.AspNetCore.Mvc;
 
-namespace MerengueRD.API.Controllers
+namespace MerengueRD.Api.Controllers
 {
     [ApiController]
     [Route("api/[controller]")]
     public class SongsController : ControllerBase
     {
-        private readonly SongService _songService;
+        private readonly SongService _service;
 
-        public SongsController(SongService songService)
+        public SongsController(SongService service)
         {
-            _songService = songService;
+            _service = service;
         }
 
         [HttpGet]
-        public async Task<ActionResult<IEnumerable<Song>>> GetAllSongs()
+        public async Task<ActionResult<IEnumerable<SongDto>>> GetAll()
         {
-            try
-            {
-                var songs = await _songService.GetAllAsync();
-                return Ok(songs);
-            }
-            catch (Exception ex)
-            {
-                return BadRequest($"Error: {ex.Message}");
-            }
+            var songs = await _service.GetAllAsync();
+            return Ok(songs);
         }
 
         [HttpGet("{id}")]
-        public async Task<ActionResult<Song>> GetSong(int id)
+        public async Task<ActionResult<SongDto>> GetById(int id)
         {
-            try
-            {
-                var song = await _songService.GetByIdAsync(id);
-                if (song == null)
-                    return NotFound($"Canción con ID {id} no encontrada");
+            var song = await _service.GetByIdAsync(id);
+            if (song == null)
+                return NotFound();
 
-                return Ok(song);
-            }
-            catch (Exception ex)
-            {
-                return BadRequest($"Error: {ex.Message}");
-            }
-        }
-
-        [HttpGet("search/{title}")]
-        public async Task<ActionResult<IEnumerable<Song>>> SearchSongsByTitle(string title)
-        {
-            try
-            {
-                var songs = await _songService.SearchByTitleAsync(title);
-                return Ok(songs);
-            }
-            catch (Exception ex)
-            {
-                return BadRequest($"Error: {ex.Message}");
-            }
-        }
-
-        [HttpGet("by-year/{year}")]
-        public async Task<ActionResult<IEnumerable<Song>>> GetSongsByYear(int year)
-        {
-            try
-            {
-                var songs = await _songService.GetSongsByYearAsync(year);
-                return Ok(songs);
-            }
-            catch (Exception ex)
-            {
-                return BadRequest($"Error: {ex.Message}");
-            }
+            return Ok(song);
         }
 
         [HttpPost]
-        public async Task<ActionResult<Song>> CreateSong([FromBody] Song song)
+        public async Task<ActionResult> Create([FromBody] SongDto dto)
         {
-            try
-            {
-                if (!ModelState.IsValid)
-                    return BadRequest(ModelState);
+            if (dto == null)
+                return BadRequest("La canción no puede ser nula.");
 
-                var createdSong = await _songService.AddAsync(song);
-                return CreatedAtAction(nameof(GetSong), new { id = createdSong.Id }, createdSong);
-            }
-            catch (Exception ex)
-            {
-                return BadRequest($"Error: {ex.Message}");
-            }
+            await _service.AddAsync(dto);
+            return CreatedAtAction(nameof(GetById), new { id = dto.Id }, dto);
         }
 
         [HttpPut("{id}")]
-        public async Task<ActionResult<Song>> UpdateSong(int id, [FromBody] Song song)
+        public async Task<ActionResult> Update(int id, [FromBody] SongDto dto)
         {
-            try
-            {
-                if (id != song.Id)
-                    return BadRequest("El ID no coincide");
+            if (id != dto.Id)
+                return BadRequest("El ID de la canción no coincide.");
 
-                if (!ModelState.IsValid)
-                    return BadRequest(ModelState);
-
-                var updatedSong = await _songService.UpdateAsync(song);
-                return Ok(updatedSong);
-            }
-            catch (Exception ex)
-            {
-                return BadRequest($"Error: {ex.Message}");
-            }
+            await _service.UpdateAsync(dto);
+            return NoContent();
         }
 
         [HttpDelete("{id}")]
-        public async Task<ActionResult> DeleteSong(int id)
+        public async Task<ActionResult> Delete(int id)
         {
-            try
-            {
-                await _songService.DeleteAsync(id);
-                return NoContent();
-            }
-            catch (Exception ex)
-            {
-                return BadRequest($"Error: {ex.Message}");
-            }
+            await _service.DeleteAsync(id);
+            return NoContent();
         }
+    }
 }

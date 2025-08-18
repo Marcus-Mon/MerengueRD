@@ -1,11 +1,7 @@
 ﻿using MerengueRD.Application.DTOs;
 using MerengueRD.Domain.Entities;
 using MerengueRD.Infrastructure.Interfaces;
-using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
+
 
 namespace MerengueRD.Infrastructure.Repositories
 {
@@ -47,7 +43,7 @@ namespace MerengueRD.Infrastructure.Repositories
         }
         public async Task AddAsync(ArtistDto dto)
         {
-            var song = new Artist
+            var artist = new Artist
             {
                 Nombre = dto.Nombre,
                 FechaNacimiento = dto.FechaNacimiento,
@@ -55,6 +51,7 @@ namespace MerengueRD.Infrastructure.Repositories
                 Biografia = dto.Biografia,
                 FotoUrl = dto.FotoUrl,
             };
+            await _repository.AddAsync(artist);
         }
         public async Task UpdateAsync(ArtistDto dto)
         {
